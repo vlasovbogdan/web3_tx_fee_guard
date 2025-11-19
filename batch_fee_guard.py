@@ -26,7 +26,7 @@ from typing import List, Dict, Any, Tuple
 from web3 import Web3
 from web3.exceptions import TransactionNotFound
 
-
+# Known chain IDs mapped to human-readable labels for reporting.
 CHAIN_LABELS = {
     1: "Ethereum Mainnet",
     5: "Goerli Testnet",
