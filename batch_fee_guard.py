@@ -53,6 +53,12 @@ def parse_args() -> argparse.Namespace:
         required=True,
         help="Ethereum-compatible RPC URL (e.g. https://mainnet.infura.io/v3/KEY).",
     )
+     parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Validate and print collected tx hashes, then exit without querying RPC.",
+    )
+
     parser.add_argument(
         "--warn-fee-eth",
         type=float,
@@ -76,6 +82,11 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
+    # If dry-run is requested, just echo validated hashes and exit.
+    if args.dry_run:
+        for h in tx_hashes:
+            print(h)
+        sys.exit(EXIT_OK)
 
 def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
     hashes: List[str] = []
