@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""
-batch_fee_guard.py
-
-Companion tool for web3_tx_fee_guard.
-
+"""args = parse_arg
 Given one or more transaction hashes and an RPC URL, this script:
   * Connects to an Ethereum-compatible RPC endpoint
   * Fetches each transaction + receipt
@@ -74,6 +70,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Read additional tx hashes from stdin (one per line).",
     )
+
+     if args.warn_fee_eth < 0:
+        print("ERROR: --warn-fee-eth must be non-negative.", file=sys.stderr)
+        sys.exit(EXIT_INVALID_INPUT_OR_CONNECTION)
+
     return parser.parse_args()
 
 
