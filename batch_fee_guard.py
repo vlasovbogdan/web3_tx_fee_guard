@@ -94,6 +94,7 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
         except OSError as e:
             print(f"ERROR: failed to read file {args.file}: {e}", file=sys.stderr)
             sys.exit(1)
+print("ERROR: <message>", file=sys.stderr)
 
     # From stdin
     if args.stdin:
