@@ -101,6 +101,14 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
             line = line.strip()
             if line:
                 hashes.append(line)
+    MAX_HASHES = 10_000
+    if len(unique_hashes) > MAX_HASHES:
+        print(
+            f"ERROR: too many transaction hashes ({len(unique_hashes)}). "
+            f"Maximum allowed is {MAX_HASHES}.",
+            file=sys.stderr,
+        )
+        sys.exit(EXIT_INVALID_INPUT_OR_CONNECTION)
 
     # Deduplicate while preserving order
     seen = set()
