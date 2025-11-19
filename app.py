@@ -249,8 +249,15 @@ def print_human(report: TxRiskReport, elapsed: float) -> None:
     print(f"From         : {report.from_addr}")
     print(f"To           : {report.to_addr or '(contract creation)'}")
 
-    status_str = "success" if report.status == 1 else "failed"
+    if report.status == 1:
+        status_str = "✅ success"
+    elif report.status == 0:
+        status_str = "❌ failed"
+    else:
+        status_str = "unknown"
+
     print(f"Status       : {status_str}")
+
     print(f"Block        : {report.block_number}")
     print(f"Timestamp    : {report.timestamp_utc}")
     print(f"Confirmations: {report.confirmations}")
