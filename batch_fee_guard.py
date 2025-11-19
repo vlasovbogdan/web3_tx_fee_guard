@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 batch_fee_guard.py
-
+# Companion script to `web3_tx_fee_guard.py` for checking many transactions at once.
 Companion tool for web3_tx_fee_guard.
 
 Given one or more transaction hashes and an RPC URL, this script:
