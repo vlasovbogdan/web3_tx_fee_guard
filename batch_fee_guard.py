@@ -82,6 +82,16 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
 
     # From positional args
     hashes.extend(args.tx_hashes)
+    for tx_hash in tx_hashes:
+        start = time.time()
+        # ... fetch tx + receipt ...
+        elapsed = time.time() - start
+
+        if args.json:
+            record["elapsedSeconds"] = round(elapsed, 3)
+            print(json.dumps(record))
+        else:
+            # human-readable printing can also show elapsed if you want
 
     # From file
     if args.file:
