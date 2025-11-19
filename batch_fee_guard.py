@@ -118,7 +118,23 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
 
 
 def validate_tx_hash(tx_hash: str) -> bool:
-    return tx_hash.startswith("0x") and len(tx_hash) == 66
+    """
+    Return True if the given string looks like a transaction hash.
+
+    Expected format: '0x' followed by exactly 64 hexadecimal characters.
+    """
+    if not isinstance(tx_hash, str):
+        return False
+    if not tx_hash.startswith("0x"):
+        return False
+    if len(tx_hash) != 66:
+        return False
+    try:
+        int(tx_hash[2:], 16)
+    except ValueError:
+        return False
+    return True
+
 
 
 def detect
