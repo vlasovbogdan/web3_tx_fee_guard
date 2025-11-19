@@ -228,7 +228,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def print_human(report: TxRiskReport, elapsed: float) -> None:
+def print_human(report: TxRiskReport, elapsed: float, use_unicode: bool = True) -> None:
     if report.error == "transaction not found":
         print(f"❌ Transaction not found on {report.network_label}: {report.tx_hash}")
         return
