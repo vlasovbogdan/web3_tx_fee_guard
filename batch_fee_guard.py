@@ -38,6 +38,12 @@ CHAIN_LABELS = {
     43114: "Avalanche C-Chain",
 }
 
+def get_chain_label(chain_id: int) -> str:
+    """
+    Map a chain ID to a human-readable label, falling back to 'Chain <id>'
+    if the ID is not in CHAIN_LABELS.
+    """
+    return CHAIN_LABELS.get(chain_id, f"Chain {chain_id}")
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
