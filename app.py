@@ -10,6 +10,9 @@ from typing import Optional, Dict, Any
 from web3 import Web3
 from web3.exceptions import TransactionNotFound
 
+__version__: str = "0.1.0"
+__author__: str = "Contributors"
+__all__: list[str] = ["TxRiskReport", "network_name", "fmt_utc", "is_tx_hash", "build_report", "main"]
 
 @dataclass
 class TxRiskReport:
