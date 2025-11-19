@@ -67,11 +67,18 @@ def is_tx_hash(value: str) -> bool:
 
 
 def connect(rpc_url: str, timeout: int) -> Web3:
+    """
+    Create a Web3 connection to the given HTTP RPC endpoint.
+
+    Exits the process with a non-zero status code if the connection
+    cannot be established within the given timeout.
+    """
     w3 = Web3(Web3.HTTPProvider(rpc_url, request_kwargs={"timeout": timeout}))
     if not w3.is_connected():
         print(f"❌ Failed to connect to RPC endpoint: {rpc_url}", file=sys.stderr)
         sys.exit(1)
     return w3
+
 
 
 def build_report(
