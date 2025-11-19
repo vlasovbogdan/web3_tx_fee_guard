@@ -91,9 +91,10 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
                     line = line.strip()
                     if line:
                         hashes.append(line)
-        except OSError as e:
+             except OSError as e:
             print(f"ERROR: failed to read file {args.file}: {e}", file=sys.stderr)
-            sys.exit(1)
+            sys.exit(EXIT_INVALID_INPUT_OR_CONNECTION)
+
 
     # From stdin
     if args.stdin:
@@ -110,9 +111,10 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
             seen.add(h)
             unique_hashes.append(h)
 
-    if not unique_hashes:
+     if not unique_hashes:
         print("ERROR: no transaction hashes provided.", file=sys.stderr)
-        sys.exit(1)
+        sys.exit(EXIT_INVALID_INPUT_OR_CONNECTION)
+
 
     return unique_hashes
 
