@@ -122,3 +122,10 @@ def validate_tx_hash(tx_hash: str) -> bool:
 
 
 def detect
+# Entry point for CLI usage.
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except KeyboardInterrupt:
+        print("\nAborted by user.", file=sys.stderr)
+        raise SystemExit(130)
