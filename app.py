@@ -10,7 +10,7 @@ from typing import Optional, Dict, Any
 from web3 import Web3
 from web3.exceptions import TransactionNotFound
 
-
+__version__ = "0.1.0"
 @dataclass
 class TxRiskReport:
     tx_hash: str
@@ -225,6 +225,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print JSON instead of human-readable report.",
     )
+        parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+    )
+
     return parser.parse_args()
 
 
