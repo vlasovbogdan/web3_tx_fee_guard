@@ -48,6 +48,12 @@ def parse_args() -> argparse.Namespace:
         nargs="*",
         help="One or more transaction hashes (0x...) to inspect.",
     )
+     parser.add_argument(
+        "--chain-label",
+        type=str,
+        help="Override detected chain label used in output (e.g. 'My L2').",
+    )
+
     parser.add_argument(
         "--rpc",
         required=True,
@@ -101,6 +107,9 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
             line = line.strip()
             if line:
                 hashes.append(line)
+    chain_id, chain_label = detect_chain(w3)
+    if args.chain_label:
+        chain_label = args.chain_label
 
     # Deduplicate while preserving order
     seen = set()
