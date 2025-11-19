@@ -38,6 +38,19 @@ CHAIN_LABELS = {
     43114: "Avalanche C-Chain",
 }
 
+def connect(rpc_url: str, timeout: int) -> Web3:
+    """
+    Create a Web3 connection to the given RPC URL with a timeout.
+
+    Exits the process if the connection cannot be established.
+    """
+    w3 = Web3(Web3.HTTPProvider(rpc_url, request_kwargs={"timeout": timeout}))
+     w3 = connect(args.rpc, args.timeout)
+
+    if not w3.is_connected():
+        print(f"ERROR: failed to connect to RPC endpoint: {rpc_url}", file=sys.stderr)
+        sys.exit(EXIT_INVALID_INPUT_OR_CONNECTION)
+    return w3
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -48,6 +61,14 @@ def parse_args() -> argparse.Namespace:
         nargs="*",
         help="One or more transaction hashes (0x...) to inspect.",
     )
+     parser.add_argument(
+        "-t",
+        "--timeout",
+        type=int,
+        default=15,
+        help="RPC timeout in seconds (default: 15).",
+    )
+
     parser.add_argument(
         "--rpc",
         required=True,
