@@ -69,11 +69,12 @@ def parse_args() -> argparse.Namespace:
         type=str,
         help="Path to a file with one tx hash per line.",
     )
-    parser.add_argument(
+      parser.add_argument(
         "--stdin",
         action="store_true",
-        help="Read additional tx hashes from stdin (one per line).",
+        help="Read additional tx hashes from stdin (one per line; merged with CLI args and --file).",
     )
+
     return parser.parse_args()
 
 
