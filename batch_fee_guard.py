@@ -84,13 +84,12 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
     hashes.extend(args.tx_hashes)
 
     # From file
-    if args.file:
-        try:
-            with open(args.file, "r", encoding="utf-8") as f:
-                for line in f:
+                  for line in f:
                     line = line.strip()
-                    if line:
-                        hashes.append(line)
+                    if not line or line.startswith("#"):
+                        continue
+                    hashes.append(line)
+
         except OSError as e:
             print(f"ERROR: failed to read file {args.file}: {e}", file=sys.stderr)
             sys.exit(1)
@@ -99,8 +98,10 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
     if args.stdin:
         for line in sys.stdin:
             line = line.strip()
-            if line:
-                hashes.append(line)
+            if not line or line.startswith("#"):
+                continue
+            hashes.append(line)
+
 
     # Deduplicate while preserving order
     seen = set()
