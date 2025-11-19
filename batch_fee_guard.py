@@ -76,7 +76,7 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
-
+    # Priority: CLI args > file > stdin; all merged, deduplicated, then validated.
 def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
     hashes: List[str] = []
 
