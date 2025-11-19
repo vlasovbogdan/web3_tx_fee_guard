@@ -103,8 +103,8 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
                 hashes.append(line)
 
     # Deduplicate while preserving order
-    seen = set()
-    unique_hashes = []
+    seen: set[str] = set()
+    unique_hashes: List[str] = []
     for h in hashes:
         if h not in seen:
             seen.add(h)
