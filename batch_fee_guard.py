@@ -16,7 +16,7 @@ Exit codes:
   2 = at least one transaction not found
   3 = at least one transaction fee exceeded threshold
 """
-
+__version__ = "0.1.0"
 import argparse
 import json
 import sys
@@ -48,6 +48,12 @@ def parse_args() -> argparse.Namespace:
         nargs="*",
         help="One or more transaction hashes (0x...) to inspect.",
     )
+     parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+    )
+
     parser.add_argument(
         "--rpc",
         required=True,
