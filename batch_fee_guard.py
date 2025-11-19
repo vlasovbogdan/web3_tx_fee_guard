@@ -16,6 +16,11 @@ Exit codes:
   2 = at least one transaction not found
   3 = at least one transaction fee exceeded threshold
 """
+# Exit codes
+EXIT_OK = 0
+EXIT_INVALID_INPUT_OR_CONNECTION = 1
+EXIT_TX_NOT_FOUND = 2
+EXIT_HIGH_FEE = 3
 
 import argparse
 import json
