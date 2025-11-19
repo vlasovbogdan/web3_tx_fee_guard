@@ -78,6 +78,13 @@ def parse_args() -> argparse.Namespace:
 
 
 def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
+    """
+    Collect transaction hashes from CLI positional arguments, optional file,
+    and/or stdin. Duplicates are removed while preserving the original order.
+
+    Exits the process with a non-zero code on invalid input or if no hashes
+    are provided.
+    """
     hashes: List[str] = []
 
     # From positional args
