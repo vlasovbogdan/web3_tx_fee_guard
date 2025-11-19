@@ -48,17 +48,20 @@ def parse_args() -> argparse.Namespace:
         nargs="*",
         help="One or more transaction hashes (0x...) to inspect.",
     )
-    parser.add_argument(
+      parser.add_argument(
+        "-r",
         "--rpc",
         required=True,
         help="Ethereum-compatible RPC URL (e.g. https://mainnet.infura.io/v3/KEY).",
     )
+
     parser.add_argument(
         "--warn-fee-eth",
         type=float,
         default=0.01,
         help="Fee threshold in ETH above which a transaction is flagged. Default: 0.01",
     )
+
     parser.add_argument(
         "--json",
         action="store_true",
