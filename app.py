@@ -204,27 +204,35 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("tx_hash", help="Transaction hash (0x + 64 hex chars).")
     parser.add_argument(
+        "-r",
         "--rpc",
         required=True,
         help="Ethereum-compatible HTTP RPC endpoint.",
     )
+
     parser.add_argument(
+        "-t",
         "--timeout",
         type=int,
         default=15,
         help="RPC timeout in seconds (default: 15).",
     )
-    parser.add_argument(
+
+     parser.add_argument(
+        "-w",
         "--warn-fee-eth",
         type=float,
         default=0.05,
-        help="Warn if fee exceeds this value in ETH (default: 0.05).",
+        help="Warn if fee exceeds this value in ETH (default: 0.05; must be ≥ 0).",
     )
+
     parser.add_argument(
+        "-j",
         "--json",
         action="store_true",
         help="Print JSON instead of human-readable report.",
     )
+
     return parser.parse_args()
 
 
