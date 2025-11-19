@@ -1,3 +1,5 @@
+"""Web3 transaction fee & soundness sanity checker (CLI + helpers)."""
+
 #!/usr/bin/env python3
 import argparse
 import json
