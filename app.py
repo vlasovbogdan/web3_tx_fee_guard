@@ -166,9 +166,15 @@ def build_report(
     high_fee = False
 
     if gas_used is not None and gas_price_wei is not None:
-        total_fee_wei = gas_used * gas_price_wei
-        total_fee_eth = float(Web3.from_wei(total_fee_wei, "ether"))
-        high_fee = total_fee_eth > fee_threshold_eth
+        try:
+            total_fee_wei = int(gas_used) * int(gas_price_wei)
+            total_fee_eth = float(Web3.from_wei(total_fee_wei, "ether"))
+            high_fee = total_fee_eth > fee_threshold_eth
+        except (TypeError, ValueError):
+            total_fee_wei = None
+            total_fee_eth = None
+            high_fee = False
+
 
     confirmations = max(0, int(latest_block) - int(receipt.blockNumber)) if latest_block is not None else None
 
