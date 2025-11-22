@@ -43,9 +43,16 @@ NETWORKS: Dict[int, str] = {
 
 
 def network_name(chain_id: Optional[int]) -> str:
+    """
+    Return a human-readable label for a given EVM chain id.
+
+    Unknown chain ids are mapped to "Chain <id>", and None yields
+    "Unknown network".
+    """
     if chain_id is None:
         return "Unknown network"
     return NETWORKS.get(chain_id, f"Chain {chain_id}")
+
 
 
 def fmt_utc(ts: Optional[int]) -> Optional[str]:
