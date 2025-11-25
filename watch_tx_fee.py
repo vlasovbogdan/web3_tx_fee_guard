@@ -12,6 +12,12 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
         description="Watch a tx until mined and check its fee."
     )
+        p.add_argument(
+        "--no-emoji",
+        action="store_true",
+        help="Disable emoji in output (useful for CI logs).",
+    )
+
     p.add_argument(
         "--rpc",
         required=True,
