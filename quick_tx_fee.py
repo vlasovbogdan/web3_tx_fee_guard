@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--hex-lower",
+        action="store_true",
+        help="Print transaction hash in lowercase (default behavior).",
+    )
+
     return p.parse_args()
 
 
