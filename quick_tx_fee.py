@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--json",
+        action="store_true",
+        help="Output fee information as a single JSON object.",
+    )
+
     return p.parse_args()
 
 
@@ -77,12 +83,26 @@ def main() -> int:
     total_fee_eth = float(Web3.from_wei(total_fee_wei, "ether"))
     gas_price_gwei = float(Web3.from_wei(gas_price_wei, "gwei"))
 
-    print(f"tx         : {tx_hash}")
-    print(f"block      : {rcpt.blockNumber}")
-    print(f"status     : {'success' if rcpt.status == 1 else 'failed'}")
-    print(f"gasUsed    : {gas_used:,}")
-    print(f"gasPrice   : {gas_price_gwei:.2f} gwei")
-    print(f"total fee  : {total_fee_eth:.6f} ETH")
+       if args.json:
+        import json
+
+        payload = {
+            "tx": tx_hash,
+            "blockNumber": rcpt.blockNumber,
+            "status": "success" if rcpt.status == 1 else "failed",
+            "gasUsed": gas_used,
+            "gasPriceGwei": gas_price_gwei,
+            "totalFeeEth": total_fee_eth,
+            "totalFeeWei": total_fee_wei,
+        }
+        print(json.dumps(payload, separators=(",", ":")))
+    elif not args.quiet:
+        print(f"tx         : {tx_hash}")
+        print(f"block      : {rcpt.blockNumber}")
+        print(f"status     : {'success' if rcpt.status == 1 else 'failed'}")
+        print(f"gasUsed    : {gas_used:,}")
+        print(f"gasPrice   : {gas_price_gwei:.2f} gwei")
+        print(f"total fee  : {total_fee_eth:.6f} ETH")
 
     if args.max_fee_eth is not None and total_fee_eth > args.max_fee_eth:
         print(
