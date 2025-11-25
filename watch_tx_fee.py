@@ -74,6 +74,7 @@ def get_gas_price_wei(tx, receipt) -> int:
 def main() -> None:
     args = parse_args()
 
+    
     w3 = Web3(Web3.HTTPProvider(args.rpc))
     if not w3.is_connected():
         print(f"ERROR: failed to connect to RPC {args.rpc}", file=sys.stderr)
