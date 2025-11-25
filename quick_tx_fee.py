@@ -36,6 +36,13 @@ def normalize_hash(tx_hash: str) -> str:
 
 def main() -> int:
     args = parse_args()
+    if "your_api_key" in args.rpc:
+        print(
+            "ERROR: RPC URL still contains 'your_api_key'. "
+            "Set RPC_URL or use --rpc with a real endpoint.",
+            file=sys.stderr,
+        )
+        return 1
 
     try:
         tx_hash = normalize_hash(args.tx)
