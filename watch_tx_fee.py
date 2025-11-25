@@ -78,7 +78,7 @@ def main() -> None:
     if not w3.is_connected():
         print(f"ERROR: failed to connect to RPC {args.rpc}", file=sys.stderr)
         sys.exit(1)
-
+  start = time.time()
     tx_hash = args.tx
     if not (tx_hash.startswith("0x") and len(tx_hash) == 66):
         print("ERROR: invalid tx hash format.", file=sys.stderr)
@@ -141,6 +141,8 @@ def main() -> None:
     if total_fee_eth > args.warn_fee_eth:
         print("\n⚠️  Fee exceeded threshold!")
         sys.exit(3)
+    elapsed = time.time() - start
+    print(f"\nElapsed time watching tx: {elapsed:.2f}s")
 
     print("\n✅ Fee within threshold.")
     sys.exit(0)
