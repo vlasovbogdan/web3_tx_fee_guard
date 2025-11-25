@@ -34,7 +34,7 @@ def normalize_hash(tx_hash: str) -> str:
     return tx_hash.lower()
 
 
-def main() -> int:
+ def main() -> int:
     args = parse_args()
 
     try:
