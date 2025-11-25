@@ -78,6 +78,15 @@ def main() -> None:
     if not w3.is_connected():
         print(f"ERROR: failed to connect to RPC {args.rpc}", file=sys.stderr)
         sys.exit(1)
+    try:
+        latest_block = w3.eth.block_number
+    except Exception:
+        latest_block = None
+
+    if latest_block is not None:
+        print(f"Connected to {args.rpc} (latest block {latest_block})")
+    else:
+        print(f"Connected to {args.rpc}")
 
     tx_hash = args.tx
     if not (tx_hash.startswith("0x") and len(tx_hash) == 66):
