@@ -45,6 +45,13 @@ def main() -> int:
 
     w3 = Web3(Web3.HTTPProvider(args.rpc, request_kwargs={"timeout": 15}))
     if not w3.is_connected():
+            try:
+        chain_id = w3.eth.chain_id
+        print(f"connected  : RPC OK (chain_id={chain_id})")
+    except Exception:
+        # If chain_id fails, don't crash; just skip printing it.
+        pass
+
         print(f"ERROR: could not connect to RPC {args.rpc}", file=sys.stderr)
         return 1
 
