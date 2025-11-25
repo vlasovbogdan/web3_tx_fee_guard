@@ -22,6 +22,11 @@ def parse_args() -> argparse.Namespace:
         required=True,
         help="Transaction hash (0x...).",
     )
+        p.add_argument(
+        "--status-only",
+        action="store_true",
+        help="Only wait for mining status, do not compute fee.",
+    )
     p.add_argument(
         "--warn-fee-eth",
         type=float,
@@ -91,6 +96,10 @@ def main() -> None:
 
     attempts = 0
     receipt = None
+    if args.status_only:
+        status_str = "success" if getattr(receipt, "status", 0) == 1 else "failed"
+        print(f"Tx {tx_hash} mined in block {receipt.blockNumber} with status={status_str}.")
+        sys.exit(0)
 
     while attempts < args.max_attempts:
         attempts += 1
