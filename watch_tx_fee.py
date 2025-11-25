@@ -91,6 +91,16 @@ def main() -> None:
 
     attempts = 0
     receipt = None
+    gas_used: Optional[int] = getattr(receipt, "gasUsed", None)
+    gas_price_wei = get_gas_price_wei(tx, receipt)
+
+    if gas_used is None or gas_price_wei == 0:
+        print("ERROR: cannot compute fee (missing gasUsed or gasPrice).", file=sys.stderr)
+        sys.exit(1)
+
+    total_fee_wei = gas_used * gas_price_wei
+    total_fee_eth = float(Web3.from_wei(total_fee_wei, "ether"))
+    gas_price_gwei = float(Web3.from_wei(gas_price_wei, "gwei"))
 
     while attempts < args.max_attempts:
         attempts += 1
