@@ -40,9 +40,16 @@ CHAIN_LABELS = {
 
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command-line arguments for the batch fee guard.
+
+    Returns:
+        argparse.Namespace: Parsed arguments.
+    """
     parser = argparse.ArgumentParser(
         description="Batch fee guard for multiple Web3 transactions."
     )
+
     parser.add_argument(
         "tx_hashes",
         nargs="*",
