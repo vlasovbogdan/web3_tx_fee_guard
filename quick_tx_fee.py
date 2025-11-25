@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--no-fee-guard-msg",
+        action="store_true",
+        help="Do not print the FEE GUARD message, just use exit code 2.",
+    )
+
     return p.parse_args()
 
 
@@ -84,13 +90,15 @@ def main() -> int:
     print(f"gasPrice   : {gas_price_gwei:.2f} gwei")
     print(f"total fee  : {total_fee_eth:.6f} ETH")
 
-    if args.max_fee_eth is not None and total_fee_eth > args.max_fee_eth:
-        print(
-            f"FEE GUARD: total fee {total_fee_eth:.6f} ETH exceeds max "
-            f"{args.max_fee_eth:.6f} ETH.",
-            file=sys.stderr,
-        )
+     if args.max_fee_eth is not None and total_fee_eth > args.max_fee_eth:
+        if not args.no_fee_guard_msg:
+            print(
+                f"FEE GUARD: total fee {total_fee_eth:.6f} ETH exceeds max "
+                f"{args.max_fee_eth:.6f} ETH.",
+                file=sys.stderr,
+            )
         return 2
+
 
     return 0
 
