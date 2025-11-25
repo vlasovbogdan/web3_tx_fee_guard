@@ -3,8 +3,13 @@ import os
 import sys
 from typing import Optional
 
-from web3 import Web3
-from web3.exceptions import TransactionNotFound
+try:
+    from web3 import Web3
+    from web3.exceptions import TransactionNotFound
+except ImportError as exc:
+    print("ERROR: web3 is not installed. Install with 'pip install web3'.", file=sys.stderr)
+    raise
+
 
 DEFAULT_RPC = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
