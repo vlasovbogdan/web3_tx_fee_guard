@@ -68,7 +68,7 @@ def get_gas_price_wei(tx, receipt) -> int:
         if isinstance(tx, dict) and key in tx and tx[key] is not None:
             return int(tx[key])
 
-    return 0
+       return 0  # 0 signals "unknown" in this script; caller should handle it
 
 
 def main() -> None:
