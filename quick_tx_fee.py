@@ -15,7 +15,7 @@ def parse_args() -> argparse.Namespace:
         description="Print fee details for a single transaction.",
     )
     p.add_argument("--rpc", default=DEFAULT_RPC, help="RPC URL (default from RPC_URL env).")
-    p.add_argument("--tx", required=True, help="Transaction hash (0x...).")
+      p.add_argument("-t", "--tx", required=True, help="Transaction hash (0x...).")
     p.add_argument(
         "--max-fee-eth",
         type=float,
