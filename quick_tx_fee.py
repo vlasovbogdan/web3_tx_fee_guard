@@ -8,6 +8,7 @@ from web3.exceptions import TransactionNotFound
 
 DEFAULT_RPC = os.getenv("RPC_URL", "https://mainnet.infura.io/v3/your_api_key")
 
+__version__ = "0.1.0"
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
@@ -20,6 +21,11 @@ def parse_args() -> argparse.Namespace:
         "--max-fee-eth",
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
+    )
+        p.add_argument(
+        "--version",
+        action="store_true",
+        help="Print version and exit.",
     )
     return p.parse_args()
 
@@ -36,6 +42,9 @@ def normalize_hash(tx_hash: str) -> str:
 
 def main() -> int:
     args = parse_args()
+    if getattr(args, "version", False):
+        print(f"quick_tx_fee {__version__}")
+        return 0
 
     try:
         tx_hash = normalize_hash(args.tx)
