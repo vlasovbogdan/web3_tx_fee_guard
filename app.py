@@ -10,6 +10,12 @@ from typing import Optional, Dict, Any
 from web3 import Web3
 from web3.exceptions import TransactionNotFound
 
+import logging
+
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    logger.addHandler(logging.NullHandler())
+    logger.propagate = False
 
 @dataclass
 class TxRiskReport:
