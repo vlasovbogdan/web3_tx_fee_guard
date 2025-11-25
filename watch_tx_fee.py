@@ -78,6 +78,8 @@ def main() -> None:
         print(f"ERROR: failed to connect to RPC {args.rpc}", file=sys.stderr)
         sys.exit(1)
 
-    tx_hash = args.tx
+      tx_hash = args.tx
     if not (tx_hash.startswith("0x") and len(tx_hash) == 66):
-        print("ERROR: invalid tx hash
+        print("ERROR: invalid tx hash (expected 0x + 64 hex chars).", file=sys.stderr)
+        sys.exit(1)
+
