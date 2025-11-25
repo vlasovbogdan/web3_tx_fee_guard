@@ -21,6 +21,13 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--decimals",
+        type=int,
+        default=6,
+        help="Number of decimal places to show for ETH fee (default: 6).",
+    )
+
     return p.parse_args()
 
 
@@ -82,7 +89,7 @@ def main() -> int:
     print(f"status     : {'success' if rcpt.status == 1 else 'failed'}")
     print(f"gasUsed    : {gas_used:,}")
     print(f"gasPrice   : {gas_price_gwei:.2f} gwei")
-    print(f"total fee  : {total_fee_eth:.6f} ETH")
+          print(f"total fee  : {total_fee_eth:.{args.decimals}f} ETH")
 
     if args.max_fee_eth is not None and total_fee_eth > args.max_fee_eth:
         print(
