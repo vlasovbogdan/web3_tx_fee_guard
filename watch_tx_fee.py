@@ -7,6 +7,7 @@ from typing import Optional
 from web3 import Web3
 from web3.exceptions import TransactionNotFound
 
+__all__ = ["parse_args", "get_gas_price_wei", "main"]
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
