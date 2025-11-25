@@ -91,6 +91,33 @@ def main() -> None:
 
     attempts = 0
     receipt = None
+    attempts = 0
+    print(f"Watching tx {tx_hash} (interval={args.interval}s, max_attempts={args.max_attempts})")
+
+    while attempts < args.max_attempts:
+        attempts += 1
+        try:
+            # First try to see if the tx exists at all
+            try:
+                tx = w3.eth.get_transaction(tx_hash)
+            except TransactionNotFound:
+                tx = None
+
+            # Then try the receipt; if not found, it’s pending
+            receipt = w3.eth.get_transaction_receipt(tx_hash)
+        except TransactionNotFound:
+            print(f"[{attempts}] Pending... (no receipt yet)")
+            time.sleep(args.interval)
+            continue
+        except Exception as exc:
+            print(f"ERROR: failed to fetch receipt: {exc}", file=sys.stderr)
+            sys.exit(1)
+
+        # If we reach here, we have a receipt
+        break
+    else:
+        print("ERROR: max attempts reached; tx still not mined.", file=sys.stderr)
+        sys.exit(1)
 
     while attempts < args.max_attempts:
         attempts += 1
