@@ -35,7 +35,14 @@ def normalize_hash(tx_hash: str) -> str:
 
 
 def main() -> int:
-    args = parse_args()
+    try:
+        args = parse_args()
+    except SystemExit as exc:
+        # argparse already printed a message; we just ensure a non-zero exit
+        if exc.code != 0:
+            print("ERROR: invalid command-line arguments.", file=sys.stderr)
+        raise
+
 
     try:
         tx_hash = normalize_hash(args.tx)
