@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--pending-exit-code",
+        type=int,
+        help="If set, use this exit code when transaction is pending instead of 0.",
+    )
+
     return p.parse_args()
 
 
@@ -59,9 +65,12 @@ def main() -> int:
 
     try:
         rcpt = w3.eth.get_transaction_receipt(tx_hash)
-    except TransactionNotFound:
+     except TransactionNotFound:
         print(f"INFO: transaction is still pending: {tx_hash}")
+        if args.pending_exit_code is not None:
+            return args.pending_exit_code
         return 0
+
     except Exception as exc:
         print(f"ERROR: failed to fetch receipt: {exc}", file=sys.stderr)
         return 1
