@@ -98,8 +98,8 @@ def main() -> None:
             receipt = w3.eth.get_transaction_receipt(tx_hash)
             # If no exception: tx is mined / at least has a receipt
             break
-        except TransactionNotFound:
-            print(f"[{attempts}/{args.max_attempts}] Pending...")
+               except TransactionNotFound:
+            print(f"[{attempts}] Pending... (receipt not yet available)")
         except Exception as e:  # noqa: BLE001
             print(f"ERROR while fetching receipt: {e}", file=sys.stderr)
             sys.exit(1)
