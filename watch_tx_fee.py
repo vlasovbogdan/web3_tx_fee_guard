@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+
+"""
+watch_tx_fee.py
+
+Polls a single transaction until it is mined (or times out) and then checks
+its gas fee against a configurable ETH threshold.
+"""
 import argparse
 import sys
 import time
