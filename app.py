@@ -9,6 +9,11 @@ from typing import Optional, Dict, Any
 
 from web3 import Web3
 from web3.exceptions import TransactionNotFound
+# Exit codes
+EXIT_OK = 0
+EXIT_INVALID_TX = 1
+EXIT_TX_NOT_FOUND = 2
+EXIT_HIGH_FEE = 3
 
 
 @dataclass
@@ -309,5 +314,9 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
-    raise SystemExit(main())
+    if report.error == "transaction not found":
+        return EXIT_TX_NOT_FOUND
+    if report.high_fee:
+        return EXIT_HIGH_FEE
+    return EXIT_OK
+
