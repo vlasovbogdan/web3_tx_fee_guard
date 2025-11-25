@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--no-ansi",
+        action="store_true",
+        help="Reserved flag to disable colored output (plain text only).",
+    )
+
     return p.parse_args()
 
 
