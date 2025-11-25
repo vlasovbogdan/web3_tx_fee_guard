@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--status-only",
+        action="store_true",
+        help="Print only transaction status (success/failed) and exit.",
+    )
+
     return p.parse_args()
 
 
@@ -65,6 +71,23 @@ def main() -> int:
     except Exception as exc:
         print(f"ERROR: failed to fetch receipt: {exc}", file=sys.stderr)
         return 1
+    if args.status_only:
+        print("success" if rcpt.status == 1 else "failed")
+        if args.max_fee_eth is not None:
+            # still enforce fee guard in status-only mode
+            gas_used: Optional[int] = rcpt.gasUsed
+            gas_price_wei: Optional[int] = getattr(rcpt, "effectiveGasPrice", None) or tx.get("gasPrice")
+            if gas_used is not None and gas_price_wei is not None:
+                total_fee_wei = gas_used * gas_price_wei
+                total_fee_eth = float(Web3.from_wei(total_fee_wei, "ether"))
+                if total_fee_eth > args.max_fee_eth:
+                    print(
+                        f"FEE GUARD: total fee {total_fee_eth:.6f} ETH exceeds max "
+                        f"{args.max_fee_eth:.6f} ETH.",
+                        file=sys.stderr,
+                    )
+                    return 2
+        return 0
 
     gas_used: Optional[int] = rcpt.gasUsed
     gas_price_wei: Optional[int] = getattr(rcpt, "effectiveGasPrice", None) or tx.get("gasPrice")
