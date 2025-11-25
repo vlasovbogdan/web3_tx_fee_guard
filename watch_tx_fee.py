@@ -9,9 +9,11 @@ from web3.exceptions import TransactionNotFound
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(
-        description="Watch a tx until mined and check its fee."
+     p = argparse.ArgumentParser(
+        description="Watch a tx until mined and check its fee.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
+
     p.add_argument(
         "--rpc",
         required=True,
