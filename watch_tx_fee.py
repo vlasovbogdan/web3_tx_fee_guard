@@ -71,7 +71,12 @@ def get_gas_price_wei(tx, receipt) -> int:
     return 0
 
 
+# Exit codes:
+# 0 = ok, fee <= threshold (or no threshold hit)
+# 1 = RPC / argument / timeout error
+# 2 = fee exceeded warn threshold
 def main() -> None:
+
     args = parse_args()
 
     w3 = Web3(Web3.HTTPProvider(args.rpc))
