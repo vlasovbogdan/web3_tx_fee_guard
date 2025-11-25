@@ -69,6 +69,14 @@ def get_gas_price_wei(tx, receipt) -> int:
             return int(tx[key])
 
     return 0
+def normalize_hash(tx_hash: str) -> str:
+    tx_hash = tx_hash.strip()
+    if not tx_hash.startswith("0x"):
+        tx_hash = "0x" + tx_hash
+    if len(tx_hash) != 66:
+        raise ValueError("tx hash must be 0x + 64 hex chars")
+    int(tx_hash[2:], 16)  # validate hex
+    return tx_hash.lower()
 
 
 def main() -> None:
@@ -79,10 +87,12 @@ def main() -> None:
         print(f"ERROR: failed to connect to RPC {args.rpc}", file=sys.stderr)
         sys.exit(1)
 
-    tx_hash = args.tx
-    if not (tx_hash.startswith("0x") and len(tx_hash) == 66):
-        print("ERROR: invalid tx hash format.", file=sys.stderr)
+       try:
+        tx_hash = normalize_hash(args.tx)
+    except ValueError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
         sys.exit(1)
+
 
     print(f"Watching tx: {tx_hash}")
     print(f"RPC: {args.rpc}")
