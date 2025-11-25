@@ -73,6 +73,9 @@ def get_gas_price_wei(tx, receipt) -> int:
 
 def main() -> None:
     args = parse_args()
+    use_emoji = not getattr(args, "no_emoji", False)
+    pending_icon = "⏳" if use_emoji else "[PENDING]"
+    done_icon = "✅" if use_emoji else "[DONE]"
 
     w3 = Web3(Web3.HTTPProvider(args.rpc))
     if not w3.is_connected():
@@ -137,6 +140,7 @@ def main() -> None:
     print(f"Gas price     : {w3.from_wei(gas_price_wei, 'gwei')} gwei")
     print(f"Total fee     : {total_fee_eth:.8f} ETH")
     print(f"Warn threshold: {args.warn_fee_eth:.8f} ETH")
+            print(f"{pending_icon} [{attempts}] Pending... (receipt not yet available)")
 
     if total_fee_eth > args.warn_fee_eth:
         print("\n⚠️  Fee exceeded threshold!")
