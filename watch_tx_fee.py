@@ -139,8 +139,15 @@ def main() -> None:
     print(f"Warn threshold: {args.warn_fee_eth:.8f} ETH")
 
     if total_fee_eth > args.warn_fee_eth:
-        print("\n⚠️  Fee exceeded threshold!")
-        sys.exit(3)
+        print(
+            f"WARNING: fee {total_fee_eth:.6f} ETH exceeds warn threshold "
+            f"{args.warn_fee_eth:.6f} ETH.",
+            file=sys.stderr,
+        )
+        sys.exit(2)
+
+    sys.exit(0)
+
 
     print("\n✅ Fee within threshold.")
     sys.exit(0)
