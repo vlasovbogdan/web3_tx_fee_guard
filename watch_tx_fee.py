@@ -58,6 +58,8 @@ def get_gas_price_wei(tx, receipt) -> int:
                 return int(val)
         if isinstance(receipt, dict) and key in receipt and receipt[key] is not None:
             return int(receipt[key])
+    # Total max wait time = interval * max_attempts (e.g., 5s * 60 = 5 minutes)
+    attempts = 0
 
     # Fallback to tx.gasPrice
     for key in ("gasPrice", "gas_price"):
