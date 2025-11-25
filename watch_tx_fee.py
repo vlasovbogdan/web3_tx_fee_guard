@@ -130,13 +130,15 @@ def main() -> None:
     status = receipt.get("status") if isinstance(receipt, dict) else getattr(receipt, "status", None)
     status_str = "success" if status == 1 else "failure" if status == 0 else "unknown"
 
-    print("=== TX MINED ===")
-    print(f"Status        : {status_str}")
-    print(f"Block         : {receipt.get('blockNumber') if isinstance(receipt, dict) else getattr(receipt, 'blockNumber', None)}")
-    print(f"Gas used      : {gas_used}")
-    print(f"Gas price     : {w3.from_wei(gas_price_wei, 'gwei')} gwei")
-    print(f"Total fee     : {total_fee_eth:.8f} ETH")
-    print(f"Warn threshold: {args.warn_fee_eth:.8f} ETH")
+    status_str = "success" if getattr(receipt, "status", 0) == 1 else "failed"
+    print("\n=== Tx Fee Summary ===")
+    print(f"Tx hash   : {tx_hash}")
+    print(f"Status    : {status_str}")
+    print(f"Block     : {receipt.blockNumber}")
+    print(f"Gas used  : {gas_used:,}")
+    print(f"Gas price : {gas_price_gwei:.2f} gwei")
+    print(f"Fee       : {total_fee_eth:.6f} ETH")
+
 
     if total_fee_eth > args.warn_fee_eth:
         print("\n⚠️  Fee exceeded threshold!")
