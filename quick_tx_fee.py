@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--show-input",
+        action="store_true",
+        help="Print parsed arguments at startup for debugging.",
+    )
+
     return p.parse_args()
 
 
@@ -36,6 +42,8 @@ def normalize_hash(tx_hash: str) -> str:
 
 def main() -> int:
     args = parse_args()
+    if args.show_input:
+        print(f"ARGS: {args}", file=sys.stderr)
 
     try:
         tx_hash = normalize_hash(args.tx)
