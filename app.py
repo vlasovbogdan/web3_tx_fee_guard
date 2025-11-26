@@ -107,6 +107,24 @@ def build_report(
             pending=False,
             error="transaction not found",
         )
+def get_raw_tx_and_receipt(w3: Web3, tx_hash: str) -> Dict[str, Any]:
+    """
+    Return raw transaction and receipt dictionaries, if available.
+    """
+    data: Dict[str, Any] = {}
+    try:
+        tx = w3.eth.get_transaction(tx_hash)
+        data["transaction"] = dict(tx)
+    except TransactionNotFound:
+        data["transaction"] = None
+
+    try:
+        receipt = w3.eth.get_transaction_receipt(tx_hash)
+        data["receipt"] = dict(receipt)
+    except TransactionNotFound:
+        data["receipt"] = None
+
+    return data
 
     if tx.blockNumber is None:
         return TxRiskReport(
@@ -128,6 +146,9 @@ def build_report(
             pending=True,
             error=None,
         )
+    if args.raw:
+        raw = get_raw_tx_and_receipt(w3, tx_hash)
+        print(json.dumps(raw, indent=2, sort_keys=True, default=str), file=sys.stderr)
 
     try:
         receipt = w3.eth.get_transaction_receipt(tx_hash)
@@ -214,6 +235,11 @@ def parse_args() -> argparse.Namespace:
         default=15,
         help="RPC timeout in seconds (default: 15).",
     )
+        parser.add_argument(
+        "--raw",
+        action="store_true",
+        help="Print raw transaction and receipt JSON to stderr for debugging.",
+    )
     parser.add_argument(
         "--warn-fee-eth",
         type=float,
@@ -294,6 +320,15 @@ def main() -> int:
     w3 = connect(args.rpc, args.timeout)
     report = build_report(w3, tx_hash, args.warn_fee_eth)
     elapsed = time.time() - start
+
+
+    try:
+        receipt = w3.eth.get_transaction_receipt(tx_hash)
+        data["receipt"] = dict(receipt)
+    except TransactionNotFound:
+        data["receipt"] = None
+
+    return data
 
     if args.json:
         payload: Dict[str, Any] = asdict(report)
