@@ -9,8 +9,22 @@ from typing import Optional, Dict, Any
 
 from web3 import Web3
 from web3.exceptions import TransactionNotFound
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:  # pragma: no cover
+    # Future Protocol / TypedDict imports go here.
 
+    
+    pass
+    __version__: str = "0.1.0"
+__author__: str = "Contributors"
 
+    __all__: list[str] = ["TxRiskReport", "network_name", "fmt_utc", "is_tx_hash", "build_report", "main"]
+
+EXIT_OK = 0
+EXIT_NOT_FOUND = 2
+EXIT_HIGH_FEE = 3
+EXIT_BAD_INPUT = 4
+EXIT_CONNECT_FAIL = 5
 @dataclass
 class TxRiskReport:
     tx_hash: str
