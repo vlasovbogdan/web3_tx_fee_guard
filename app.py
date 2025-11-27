@@ -214,12 +214,13 @@ def parse_args() -> argparse.Namespace:
         default=15,
         help="RPC timeout in seconds (default: 15).",
     )
-    parser.add_argument(
+     parser.add_argument(
         "--warn-fee-eth",
         type=float,
         default=0.05,
-        help="Warn if fee exceeds this value in ETH (default: 0.05).",
+        help="Warn if fee exceeds this value in ETH (default: 0.05; must be ≥ 0).",
     )
+
     parser.add_argument(
         "--json",
         action="store_true",
@@ -284,6 +285,9 @@ def print_human(report: TxRiskReport, elapsed: float) -> None:
 
 def main() -> int:
     args = parse_args()
+    if args.warn_fee_eth < 0:
+        print("❌ --warn-fee-eth must be non-negative.", file=sys.stderr)
+        return EXIT_INVALID_TX
 
     tx_hash = args.tx_hash.strip()
     if not is_tx_hash(tx_hash):
