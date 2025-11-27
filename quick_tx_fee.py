@@ -21,6 +21,17 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--from-block",
+        type=int,
+        help="(Reserved) Starting block number for future multi-tx scans.",
+    )
+    p.add_argument(
+        "--to-block",
+        type=int,
+        help="(Reserved) Ending block number for future multi-tx scans.",
+    )
+
     return p.parse_args()
 
 
@@ -36,6 +47,11 @@ def normalize_hash(tx_hash: str) -> str:
 
 def main() -> int:
     args = parse_args()
+    if args.from_block is not None or args.to_block is not None:
+        print(
+            "WARN: --from-block/--to-block are reserved and not used yet in this tool.",
+            file=sys.stderr,
+        )
 
     try:
         tx_hash = normalize_hash(args.tx)
