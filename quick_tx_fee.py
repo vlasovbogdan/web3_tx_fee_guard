@@ -21,6 +21,11 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--raw-wei",
+        action="store_true",
+        help="Also print total fee in wei.",
+    )
     return p.parse_args()
 
 
@@ -76,6 +81,15 @@ def main() -> int:
     total_fee_wei = gas_used * gas_price_wei
     total_fee_eth = float(Web3.from_wei(total_fee_wei, "ether"))
     gas_price_gwei = float(Web3.from_wei(gas_price_wei, "gwei"))
+    if not args.quiet:
+        print(f"tx         : {tx_hash}")
+        print(f"block      : {rcpt.blockNumber}")
+        print(f"status     : {'success' if rcpt.status == 1 else 'failed'}")
+        print(f"gasUsed    : {gas_used:,}")
+        print(f"gasPrice   : {gas_price_gwei:.2f} gwei")
+        print(f"total fee  : {total_fee_eth:.6f} ETH")
+        if args.raw_wei:
+            print(f"total fee  : {total_fee_wei} wei")
 
     print(f"tx         : {tx_hash}")
     print(f"block      : {rcpt.blockNumber}")
