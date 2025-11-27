@@ -1,3 +1,9 @@
+"""
+quick_tx_fee: simple helper to fetch Ethereum tx receipts and compute fee information.
+
+Given a tx hash and RPC URL, prints gas used, gas price, total fee in ETH,
+and optionally enforces a max-fee guard via exit code 2.
+"""
 import argparse
 import os
 import sys
