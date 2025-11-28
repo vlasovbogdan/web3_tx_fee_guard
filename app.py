@@ -208,6 +208,11 @@ def parse_args() -> argparse.Namespace:
         required=True,
         help="Ethereum-compatible HTTP RPC endpoint.",
     )
+        parser.add_argument(
+        "--chain-label",
+        help="Override detected network label in the report (e.g. 'My private L2').",
+    )
+
     parser.add_argument(
         "--timeout",
         type=int,
@@ -293,6 +298,9 @@ def main() -> int:
     start = time.time()
     w3 = connect(args.rpc, args.timeout)
     report = build_report(w3, tx_hash, args.warn_fee_eth)
+    if args.chain_label:
+        report.network_label = args.chain_label
+
     elapsed = time.time() - start
 
     if args.json:
