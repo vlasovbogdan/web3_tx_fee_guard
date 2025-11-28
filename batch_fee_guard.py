@@ -104,7 +104,7 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
 
     # Deduplicate while preserving order
     seen = set()
-    unique_hashes = []
+    unique_hashes: List[str] = []
     for h in hashes:
         if h not in seen:
             seen.add(h)
@@ -112,7 +112,15 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
 
     if not unique_hashes:
         print("ERROR: no transaction hashes provided.", file=sys.stderr)
-        sys.exit(1)
+        sys.exit(EXIT_INVALID_INPUT_OR_CONNECTION)
+
+    # Validate all hashes
+    invalid = [h for h in unique_hashes if not validate_tx_hash(h)]
+    if invalid:
+        print("ERROR: invalid transaction hash format:", file=sys.stderr)
+        for h in invalid:
+            print(f"  {h}", file=sys.stderr)
+        sys.exit(EXIT_INVALID_INPUT_OR_CONNECTION)
 
     return unique_hashes
 
