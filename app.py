@@ -276,6 +276,9 @@ def print_human(report: TxRiskReport, elapsed: float) -> None:
     print("")
     print(f"Elapsed      : {elapsed:.2f}s")
     print("")
+    summary_status = "pending" if report.pending else ("high_fee" if report.high_fee else "ok")
+    print(f"Summary      : {report.tx_hash} [{summary_status}]")
+    print("")
     print("Note: This tool does not modify the chain or send transactions. "
           "It is intended as a lightweight fee and soundness sanity check on top of Web3 clients, "
           "and can be combined with zk / FHE / soundness-focused workflows in projects like "
