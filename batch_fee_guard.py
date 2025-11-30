@@ -116,6 +116,9 @@ def collect_tx_hashes(args: argparse.Namespace) -> List[str]:
 
     return unique_hashes
 
+    batch_queried_at_utc = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+     record["batchQueriedAtUtc"] = batch_queried_at_utc
+
 
 def validate_tx_hash(tx_hash: str) -> bool:
     return tx_hash.startswith("0x") and len(tx_hash) == 66
