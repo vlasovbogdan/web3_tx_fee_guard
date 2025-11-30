@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--block-only",
+        action="store_true",
+        help="Print only the block number containing the transaction.",
+    )
+
     return p.parse_args()
 
 
@@ -65,6 +71,9 @@ def main() -> int:
     except Exception as exc:
         print(f"ERROR: failed to fetch receipt: {exc}", file=sys.stderr)
         return 1
+    if args.block_only:
+        print(rcpt.blockNumber)
+        return 0
 
     gas_used: Optional[int] = rcpt.gasUsed
     gas_price_wei: Optional[int] = getattr(rcpt, "effectiveGasPrice", None) or tx.get("gasPrice")
