@@ -78,9 +78,16 @@ def fmt_utc(ts: Optional[int]) -> Optional[str]:
 
 
 def is_tx_hash(value: str) -> bool:
+    """
+    Return True if the given string looks like a transaction hash.
+
+    Expected format: "0x" followed by exactly 64 hexadecimal characters.
+    """
     if not isinstance(value, str):
         return False
-    if not value.startswith("0x") or len(value) != 66:
+    if not value.startswith("0x"):
+        return False
+    if len(value) != 66:  # "0x" + 64 hex chars
         return False
     try:
         int(value[2:], 16)
