@@ -260,9 +260,11 @@ def parse_args() -> argparse.Namespace:
 
 
 def print_human(report: TxRiskReport, elapsed: float) -> None:
-    if report.error == "transaction not found":
-        print(f"❌ Transaction not found on {report.network_label}: {report.tx_hash}")
+      if report.error == "transaction not found":
+        chain_info = f" (chain_id={report.chain_id})" if report.chain_id is not None else ""
+        print(f"❌ Transaction not found on {report.network_label}{chain_info}: {report.tx_hash}")
         return
+
 
     if report.pending:
         print(f"⏳ Transaction is pending on {report.network_label}: {report.tx_hash}")
