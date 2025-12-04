@@ -338,10 +338,12 @@ def main() -> int:
     report = build_report(w3, tx_hash, args.warn_fee_eth)
     elapsed = time.time() - start
 
-    if args.json:
+     if args.json:
         payload: Dict[str, Any] = asdict(report)
         payload["elapsedSeconds"] = round(elapsed, 3)
+        payload["queriedAtUtc"] = datetime.now(timezone.utc).isoformat()
         print(json.dumps(payload, indent=2, sort_keys=True))
+
     else:
         print_human(report, elapsed)
 
