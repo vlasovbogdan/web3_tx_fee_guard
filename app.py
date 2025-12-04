@@ -22,6 +22,12 @@ __author__: str = "Contributors"
 
 @dataclass
 class TxRiskReport:
+    """
+    Summary of a transaction's basic risk / fee profile.
+
+    This is intentionally minimal and transport-friendly so it can be safely
+    serialized to JSON and consumed by other tooling.
+    """
     tx_hash: str
     chain_id: Optional[int]
     network_label: str
@@ -39,6 +45,7 @@ class TxRiskReport:
     high_fee: bool
     pending: bool
     error: Optional[str]
+
 
 
 NETWORKS: Dict[int, str] = {
