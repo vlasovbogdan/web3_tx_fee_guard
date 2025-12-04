@@ -95,5 +95,10 @@ def main() -> int:
     return 0
 
 
+# Exit codes:
+# 0 - success (or tx pending when no special pending-exit-code is set)
+# 1 - argument or network error
+# 2 - fee guard triggered (fee exceeded max-fee-eth)
 if __name__ == "__main__":
     raise SystemExit(main())
+
