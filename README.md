@@ -4,13 +4,21 @@ This repository contains a minimal CLI tool called web3_tx_fee_guard.
 It inspects a single Web3 transaction through an RPC endpoint and classifies its fee as within or above a configurable threshold, while also showing basic soundness signals such as status, block, confirmations, and network.
 
 
-
 ## Repository layout
 
-- app.py
-- README.md
+Core tool:
 
-There are no additional files required by design.
+  * `app.py` – main `web3_tx_fee_guard` CLI.
+
+Companion scripts:
+
+  * `batch_fee_guard.py` – batch fee guard for multiple tx hashes.
+  * `quick_tx_fee.py` – very small helper to print fee info for one tx using an RPC from `RPC_URL`.
+  * `watch_tx_fee.py` – watch a pending tx until mined and check its fee.
+
+Docs:
+
+  * `README.md` – this documentation file.
 
 
 
