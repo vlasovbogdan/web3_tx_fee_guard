@@ -345,14 +345,10 @@ def main() -> int:
         print(json.dumps(payload, indent=2, sort_keys=True))
 
     else:
+        if args.json:
+        ...
+    else:
         print_human(report, elapsed)
-
-    if report.error == "transaction not found":
-        return 2
-    if report.high_fee:
-        return 3
-    return 0
-
 
     if report.error == "transaction not found":
         return EXIT_TX_NOT_FOUND
