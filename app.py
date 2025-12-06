@@ -1,6 +1,7 @@
 """Web3 transaction fee & soundness sanity checker (CLI + helpers)."""
 
 #!/usr/bin/env python3
+import os
 import argparse
 import json
 import sys
@@ -233,10 +234,12 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument("tx_hash", help="Transaction hash (0x + 64 hex chars).")
-    parser.add_argument(
-        "--rpc",
-        required=True,
-        help="Ethereum-compatible HTTP RPC endpoint.",
+parser.add_argument(
+    "--rpc",
+    default=DEFAULT_RPC,
+    help="Ethereum-compatible HTTP RPC endpoint (default from RPC_URL env).",
+)
+
     )
     parser.add_argument(
         "--timeout",
@@ -324,9 +327,11 @@ def print_human(report: TxRiskReport, elapsed: float) -> None:
 
 def main() -> int:
     args = parse_args()
-    if args.warn_fee_eth < 0:
-        print("❌ --warn-fee-eth must be non-negative.", file=sys.stderr)
+
+    if not args.rpc:
+        print("❌ RPC URL is required (use --rpc or set RPC_URL env var).", file=sys.stderr)
         return EXIT_INVALID_TX
+
 
     tx_hash = args.tx_hash.strip()
     if not is_tx_hash(tx_hash):
