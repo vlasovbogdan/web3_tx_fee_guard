@@ -48,6 +48,13 @@ def parse_args() -> argparse.Namespace:
         nargs="*",
         help="One or more transaction hashes (0x...) to inspect.",
     )
+     parser.add_argument(
+        "--max-concurrency",
+        type=int,
+        default=1,
+        help="Maximum number of transactions to process concurrently (reserved for future use).",
+    )
+
     parser.add_argument(
         "--rpc",
         required=True,
