@@ -31,6 +31,15 @@ def parse_args() -> argparse.Namespace:
 
 
 def normalize_hash(tx_hash: str) -> str:
+    """Normalize and validate an Ethereum transaction hash.
+
+    Ensures it:
+    - is prefixed with '0x'
+    - has length 66 characters
+    - contains only hex digits
+    Returns the lowercase version.
+    Raises ValueError on invalid input.
+    """
     tx_hash = tx_hash.strip()
     if not tx_hash.startswith("0x"):
         tx_hash = "0x" + tx_hash
