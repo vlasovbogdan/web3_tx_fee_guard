@@ -42,6 +42,9 @@ def normalize_hash(tx_hash: str) -> str:
 
 def main() -> int:
     args = parse_args()
+    if args.max_fee_eth is not None and args.max_fee_eth < 0:
+        print("ERROR: --max-fee-eth must be non-negative.", file=sys.stderr)
+        return 1
 
     try:
         tx_hash = normalize_hash(args.tx)
