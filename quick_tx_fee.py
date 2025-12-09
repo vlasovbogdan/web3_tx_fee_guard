@@ -21,6 +21,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="If set, exit non-zero if total fee exceeds this ETH value.",
     )
+        p.add_argument(
+        "--timeout",
+        type=float,
+        default=15.0,
+        help="HTTP RPC timeout in seconds (default: 15).",
+    )
     return p.parse_args()
 
 
@@ -43,7 +49,7 @@ def main() -> int:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
 
-    w3 = Web3(Web3.HTTPProvider(args.rpc, request_kwargs={"timeout": 15}))
+      w3 = Web3(Web3.HTTPProvider(args.rpc, request_kwargs={"timeout": args.timeout}))
     if not w3.is_connected():
         print(f"ERROR: could not connect to RPC {args.rpc}", file=sys.stderr)
         return 1
