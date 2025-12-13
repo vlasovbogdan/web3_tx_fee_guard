@@ -121,4 +121,16 @@ def validate_tx_hash(tx_hash: str) -> bool:
     return tx_hash.startswith("0x") and len(tx_hash) == 66
 
 
-def detect
+def detect_chain(w3: Web3) -> Tuple[int, str]:
+    """
+    Detect the current chain ID from the Web3 provider and return both
+    the numeric ID and a human-readable label.
+    """
+    try:
+        chain_id = w3.eth.chain_id
+    except Exception:
+        # Unknown or unreachable chain id
+        return 0, "Unknown network"
+
+    return chain_id, get_chain_label(chain_id)
+
