@@ -43,7 +43,7 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
-def get_gas_price_wei(tx, receipt) -> int:
+def get_gas_price_wei(tx: object, receipt: object) -> int:
     """
     Best-effort gas price (wei):
 
